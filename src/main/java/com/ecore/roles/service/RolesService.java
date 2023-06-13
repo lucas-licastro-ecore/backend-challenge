@@ -1,16 +1,25 @@
 package com.ecore.roles.service;
 
 import com.ecore.roles.model.Role;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface RolesService {
 
-    Role CreateRole(Role role);
+    @NonNull
+    Role createRole(@NonNull Role role);
 
-    Role GetRole(UUID id);
+    List<Role> getRoles();
 
-    List<Role> GetRoles();
+    @Nullable
+    Role getRole(@NonNull UUID id);
+
+    @NonNull
+    Role getDefaultRole();
+
+    void validateRole(Role role);
 
 }

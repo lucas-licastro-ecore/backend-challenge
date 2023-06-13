@@ -1,13 +1,13 @@
 package com.ecore.roles.service;
 
-import com.ecore.roles.client.model.Team;
+import org.springframework.lang.NonNull;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface TeamsService {
 
-    Team getTeam(UUID id);
+    void verifyTeamContainsUser(
+            @NonNull UUID teamId,
+            @NonNull UUID userId);
 
-    List<Team> getTeams();
 }

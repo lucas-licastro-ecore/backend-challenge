@@ -1,37 +1,35 @@
 package com.ecore.roles.client;
 
-import com.ecore.roles.client.model.Team;
-import com.ecore.roles.configuration.ClientsConfigurationProperties;
+import com.ecore.roles.client.dto.TeamDto;
+import com.ecore.roles.configuration.ClientsProperties;
+import com.ecore.roles.exception.ResourceNotFoundException;
+import com.ecore.roles.model.Team;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
+
+import static java.util.Optional.ofNullable;
 
 @RequiredArgsConstructor
 @Component
 public class TeamsClient {
 
     private final RestTemplate restTemplate;
-    private final ClientsConfigurationProperties clientsConfigurationProperties;
+    private final ClientsProperties clientsProperties;
 
-    public ResponseEntity<Team> getTeam(UUID id) {
-        return restTemplate.exchange(
-                clientsConfigurationProperties.getTeamsApiHost() + "/" + id,
+    public @NotNull Team getTeam(@NotNull UUID id) {
+        ResponseEntity<TeamDto> responseEntity = restTemplate.exchange(
+                clientsProperties.getTeamsApiHost() + "/" + id,
                 HttpMethod.GET,
                 null,
-                Team.class);
-    }
-
-    public ResponseEntity<List<Team>> getTeams() {
-        return restTemplate.exchange(
-                clientsConfigurationProperties.getTeamsApiHost(),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {});
+                TeamDto.class);
+        return ofNullable(responseEntity.getBody())
+                .orElseThrow(() -> new ResourceNotFoundException(Team.class, id))
+                .toModel();
     }
 }

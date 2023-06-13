@@ -5,12 +5,12 @@ create table role
     name varchar(255) not null
 );
 
-create table membership
+create table assignment
 (
     id      varchar(255) not null
         primary key,
-    team_id binary(255)  not null,
-    user_id binary(255)  not null,
+    team_id varchar(255)  not null,
+    user_id varchar(255)  not null,
     role_id varchar(255) not null,
     constraint UKovs2w4ph57xdtsrc5y3iqjvh1
         unique (role_id, team_id, user_id),

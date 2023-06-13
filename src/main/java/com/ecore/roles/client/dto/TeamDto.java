@@ -1,7 +1,6 @@
-package com.ecore.roles.web.dto;
+package com.ecore.roles.client.dto;
 
-import com.ecore.roles.client.model.Team;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ecore.roles.model.Team;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,22 +27,20 @@ public class TeamDto {
     private String name;
 
     @JsonProperty
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID teamLeadId;
 
     @JsonProperty
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<UUID> teamMemberIds;
 
-    public static TeamDto fromModel(Team team) {
-        if (team == null) {
+    public Team toModel() {
+        if (this.getId() == null) {
             return null;
         }
-        return TeamDto.builder()
-                .id(team.getId())
-                .name(team.getName())
-                .teamLeadId(team.getTeamLeadId())
-                .teamMemberIds(team.getTeamMemberIds())
+        return Team.builder()
+                .id(this.getId())
+                .name(this.getName())
+                .teamLeadId(this.getTeamLeadId())
+                .teamMembersIds(this.getTeamMemberIds())
                 .build();
     }
 }

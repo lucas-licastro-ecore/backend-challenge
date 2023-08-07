@@ -1,5 +1,6 @@
 package com.ecore.roles.model;
 
+import com.ecore.roles.service.Roles.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +28,10 @@ public class Role {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    public GrpcRole toGrpcRole() {
+        return GrpcRole.newBuilder()
+                .setId(this.id.toString())
+                .setName(this.name)
+                .build();
+    }
 }

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_package = "com.ecore.roles.service";
+
+service RolesService {
+  rpc GetRoles (GetRolesRequest) returns (GetRolesResponse) {}
+  rpc GetRole (GetRoleRequest) returns (GetRoleResponse) {}
+
+}
+
+message GrpcRole {
+  optional string id = 1;
+  string name = 2;
+}
+
+message GetRolesRequest {}
+
+message GetRolesResponse {
+  repeated GrpcRole roles = 1;
+}
+
+message GetRoleRequest {
+  string id = 1;
+}
+
+message GetRoleResponse {
+  GrpcRole roles = 1;
+}
